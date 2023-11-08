@@ -1,6 +1,8 @@
 import java.util.LinkedList;
 public class Partie {
     public LinkedList<LinkedList<Carte>> Decks;
+    public LinkedList<LinkedList<Carte>> Mains;
+
     public LinkedList<Carte> jeu;
     public Carte actuel;
     public int tour;
@@ -10,9 +12,9 @@ public class Partie {
     public void change()
     {
         tour++;
-        if(tour>nb_joueurs)
+        if(tour>=nb_joueurs)
         {
-            tour = 1;
+            tour = 0;
         }
     }
 
@@ -25,8 +27,14 @@ public class Partie {
         }
     }
 
-
-
+    public void piocher()
+    {
+        if(Decks.get(tour).get(0) != null)
+        {
+            Mains.get(tour).add(Decks.get(tour).get(0));
+            Decks.get(tour).remove(0);
+        }
+    }
 
     //fonction pour vérifier si l'on peut jouer la carte c2 sur la carte c1
     //c1 ne peut donc pas être un joker car elle est déja sur la table
