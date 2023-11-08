@@ -11,16 +11,13 @@ public class Partie {
     public int tour;
     public int nb_joueurs;
 
-    //fonction qui change la valeur du booleen tour
+    //fonction qui change la valeur du tour
     public void change()
     {
-        if(tour == true)
+        tour++;
+        if(tour>nb_joueurs)
         {
-            tour = false;
-        }
-        else
-        {
-            tour = true;
+            tour = 1;
         }
     }
 
