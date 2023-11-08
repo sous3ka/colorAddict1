@@ -1,11 +1,11 @@
 import java.util.LinkedList;
 public class Partie {
-    public LinkedList<LinkedList<Carte>> Decks;
-    public LinkedList<LinkedList<Carte>> Mains;
+    public LinkedList<LinkedList<Carte>> Decks; // decks (pioche) des joueurs
+    public LinkedList<LinkedList<Carte>> Mains; // mains des joueurs
 
-    public LinkedList<Carte> jeu;
-    public Carte actuel;
-    public int tour;
+    public LinkedList<Carte> jeu; //Sert pour créer les cartes, les mélanger et les distribuer.
+    public Carte actuel; // Carte sur laquelle jouer
+    public int tour; //indice du joueur qui joue
     public int nb_joueurs;
 
     //fonction qui change la valeur du tour
