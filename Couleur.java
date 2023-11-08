@@ -5,9 +5,7 @@ public enum Couleur {
     VERT (3),
     ORANGE (4),
     ROSE (5),
-    NOIR (6),
-    JOKER (7);
-
+    NOIR (6);
     public final int valeur;
 
     private Couleur(int valeur)
