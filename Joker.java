@@ -2,6 +2,7 @@ public class Joker extends Carte{
 
     public Joker()
     {
-        super(Couleur.JOKER,Couleur.JOKER);
+        //couleur par défaut du joker (sans importance grace à l'utilisation du instanceof)
+        super(Couleur.ROUGE,Couleur.ROUGE);
     }
 }
