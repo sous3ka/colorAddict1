@@ -1,10 +1,21 @@
 public enum Couleur {
-    BLEU,
-    JAUNE,
-    ROUGE,
-    VERT,
-    ORANGE,
-    ROSE,
-    NOIR,
-    JOKER;
+    BLEU(0),
+    JAUNE(1),
+    ROUGE(2),
+    VERT (3),
+    ORANGE (4),
+    ROSE (5),
+    NOIR (6),
+    JOKER (7);
+
+    public final int valeur;
+
+    private Couleur(int valeur)
+    {
+        this.valeur = valeur;
+    }
+
+    public int getValeur(){
+        return valeur;
+    }
 }
