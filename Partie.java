@@ -46,4 +46,15 @@ public class Partie {
         ||c1.ecrit == c2.ecrit
         ||c2 instanceof Joker);
     }
+    
+    public void creerDeck() {
+        for (Couleur c1 : Couleur.values()) {
+            for (Couleur c2 : Couleur.values()) {
+                for (int exemplaire = 1; exemplaire <= 2; exemplaire++) {
+                    Carte carteAAjouter = new Carte(c1, c2);
+                    jeu.add(carteAAjouter);
+                }
+            }
+        }
+    }
 }
