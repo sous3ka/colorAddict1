@@ -14,10 +14,32 @@ public class Partie {
     public Partie(int nbj)
     {
         nb_joueurs = nbj;
+        Decks = new LinkedList<LinkedList<Carte>>();
+        Mains = new LinkedList<LinkedList<Carte>>();
+        for(int i = 0; i < nbj; i++)
+        {
+            LinkedList<Carte> d = new LinkedList<Carte>();
+            LinkedList<Carte> m = new LinkedList<Carte>();
+            Decks.add(d);
+            Mains.add(m);
+        }
         creerDeck();
         Collections.shuffle(jeu);
         tour = (int)(Math.random() * nbj);
+        while(jeu.size()>1)
+        {
+            Decks.get(tour).add(jeu.get(0));
+            jeu.remove(0);
+            change();
+        }
+        actuel = jeu.get(0);
+        jeu.remove(0);
+        for(int i = 0; i < 3*nbj; i++)
+        {
+            piocher();
+        }
     }
+
     //fonction qui change la valeur du tour
     public void change()
     {
