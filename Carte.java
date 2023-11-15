@@ -8,4 +8,10 @@ public class Carte {
         ecrit = c;
     }
 
+    //foction pour DEBUG
+    public String toString()
+    {
+        return "couleur : "+couleur+", ecrit : "+ecrit;
+    }
+
 }
