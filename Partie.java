@@ -56,5 +56,10 @@ public class Partie {
                 }
             }
         }
+        Carte carteJoker = new Joker();
+        for (int i=0;i<12;i++){
+
+            jeu.add(carteJoker);
+        }
     }
 }
