@@ -1,3 +1,4 @@
+import java.util.Collections;
 import java.util.LinkedList;
 public class Partie {
     public LinkedList<LinkedList<Carte>> Decks; // decks (pioche) des joueurs
@@ -14,6 +15,7 @@ public class Partie {
     {
         nb_joueurs = nbj;
         creerDeck();
+        Collections.shuffle(jeu);
         tour = (int)(Math.random() * nbj);
     }
     //fonction qui change la valeur du tour
