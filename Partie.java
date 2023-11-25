@@ -3,7 +3,7 @@ import java.util.LinkedList;
 public class Partie {
     public LinkedList<LinkedList<Carte>> Decks; // decks (pioche) des joueurs
     public LinkedList<LinkedList<Carte>> Mains; // mains des joueurs
-
+    public boolean[] Humains; // nombre d'humains dans la partie
     public LinkedList<Carte> jeu; //Sert pour créer les cartes, les mélanger et les distribuer.
     public Carte actuel; // Carte sur laquelle jouer
     public int tour; //indice du joueur qui joue
@@ -11,10 +11,15 @@ public class Partie {
 
     //constructeur de la partie, reçoit en paramètre le nombre de joueurs de la partie
     //prepare la partie (création + distribution des cartes + choix aléatoire du premier joueur)
-    public Partie(int nbj)
+    public Partie(int nbj, int nbh)
     {
         nb_joueurs = nbj;
         Decks = new LinkedList<LinkedList<Carte>>();
+        Humains = new boolean[nbj];
+        for(int i = 0; i < nbj; i++)
+        {
+            Humains[i] = i<nbh; 
+        }
         Mains = new LinkedList<LinkedList<Carte>>();
         for(int i = 0; i < nbj; i++)
         {
@@ -96,5 +101,24 @@ public class Partie {
         for (int i=0;i<12;i++){
             jeu.add(carteJoker);
         }
+    }
+    
+    //renvoie true si le joueur actuel peut jouer au moins une carte
+    public boolean peut_jouer()
+    {
+        boolean rep = false;
+        for(Mains.get(tour) : card)
+        {
+            if(compare(actuel, card))
+            {
+                rep = true;
+            }
+        }
+        return rep;
+    }
+    //fonction permettant à l'ordinateur de jouer si il le peut, sinon il pioche
+    public void tour_ordinateur()
+    {
+        
     }
 }
