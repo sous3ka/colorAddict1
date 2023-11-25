@@ -18,7 +18,7 @@ public class Partie {
         Humains = new boolean[nbj];
         for(int i = 0; i < nbj; i++)
         {
-            Humains[i] = i<nbh; 
+            Humains[i] = i<nbh;
         }
         Mains = new LinkedList<LinkedList<Carte>>();
         for(int i = 0; i < nbj; i++)
@@ -55,12 +55,13 @@ public class Partie {
         }
     }
 
-    //permet au joueur actuel de jouer la carte c SEULEMENT SI IL LE PEUT
-    public void jouer(Carte c)
+    //permet au joueur actuel de jouer la carte d'indice i dans sa main SEULEMENT SI IL LE PEUT
+    public void jouer(int i)
     {
-        if(compare(actuel,c))
+        if(compare(actuel,Mains.get(tour).get(i)))
         {
-            actuel = c;
+            actuel = Mains.get(tour).get(i);
+            Mains.get(tour).remove(i);
             piocher();
         }
     }
@@ -81,10 +82,10 @@ public class Partie {
     public boolean compare(Carte c1, Carte c2)
     {
         return(c1.couleur == c2.couleur
-        || c1.couleur == c2.ecrit
-        ||c1.ecrit == c2.couleur
-        ||c1.ecrit == c2.ecrit
-        ||c2 instanceof Joker);
+                || c1.couleur == c2.ecrit
+                ||c1.ecrit == c2.couleur
+                ||c1.ecrit == c2.ecrit
+                ||c2 instanceof Joker);
     }
 
     public void creerDeck() {
@@ -102,23 +103,44 @@ public class Partie {
             jeu.add(carteJoker);
         }
     }
-    
+
     //renvoie true si le joueur actuel peut jouer au moins une carte
     public boolean peut_jouer()
     {
         boolean rep = false;
-        for(Mains.get(tour) : card)
+        for(int i = 0; i < Mains.get(tour).size();i++)
         {
-            if(compare(actuel, card))
+            if(compare(actuel,Mains.get(tour).get(i)))
             {
                 rep = true;
             }
         }
         return rep;
     }
+
+    //renvoie la premiere des cartes que l'ordinateur peut jouer
+    //ne doit être appelé qu'après la fonction peut_jouer()
+    public int plus_petit_jouable()
+    {
+        for(int i = 0; i < Mains.get(tour).size();i++)
+        {
+            if(compare(actuel,Mains.get(tour).get(i)))
+            {
+                return i;
+            }
+        }
+    }
+
     //fonction permettant à l'ordinateur de jouer si il le peut, sinon il pioche
     public void tour_ordinateur()
     {
-        
+        if(peut_jouer())
+        {
+            jouer(plus_petit_jouable());
+        }
+        else
+        {
+            piocher();
+        }
     }
 }
