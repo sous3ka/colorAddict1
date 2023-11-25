@@ -104,39 +104,32 @@ public class Partie {
         }
     }
 
-    //renvoie true si le joueur actuel peut jouer au moins une carte
-    public boolean peut_jouer()
+    //fonction permettant de vérifier que le joueur actuel peut jouer
+    //si ce dernier peut jouer, alors la premiere valeur du tableau retourné sera 1 et la deuxieme sera l'indice de la carte qu'il peut jouer
+    //sinon, la premiere valeur du tableau retourné sera 0 et la deuxieme n'aura pas d'importance
+    public int[] peut_jouer()
     {
-        boolean rep = false;
-        for(int i = 0; i < Mains.get(tour).size();i++)
+        int[] rep = new int[2];
+        rep[0] = 0;
+        int i = 0;
+        while(!(rep[0] == 1) && i < Mains.get(tour).size())
         {
             if(compare(actuel,Mains.get(tour).get(i)))
             {
-                rep = true;
+                rep[0] = 1;
+                rep[1] = i;
             }
+            i++;
         }
         return rep;
-    }
-
-    //renvoie la premiere des cartes que l'ordinateur peut jouer
-    //ne doit être appelé qu'après la fonction peut_jouer()
-    public int plus_petit_jouable()
-    {
-        for(int i = 0; i < Mains.get(tour).size();i++)
-        {
-            if(compare(actuel,Mains.get(tour).get(i)))
-            {
-                return i;
-            }
-        }
     }
 
     //fonction permettant à l'ordinateur de jouer si il le peut, sinon il pioche
     public void tour_ordinateur()
     {
-        if(peut_jouer())
+        if(peut_jouer()[0] == 1)
         {
-            jouer(plus_petit_jouable());
+            jouer(peut_jouer()[1]);
         }
         else
         {
