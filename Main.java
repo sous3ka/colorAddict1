@@ -1,26 +1,18 @@
+import javax.swing.*;
+import java.awt.*;
+
 public class Main {
     public static void main(String[] args) {
-        Partie p = new Partie(2, 1);
-        for(int i = 0; i < p.Decks.get(0).size();i++)
-        {
-            System.out.println(p.Decks.get(0).get(i).toString()+" "+i);
-        }
+        JFrame fenetre = new JFrame();
+        makeFrameFullSize(fenetre);
+        fenetre.setVisible(true);
+        fenetre.setTitle("Color Addict");
+    }
 
-        for(int i = 0; i < p.Decks.get(1).size();i++)
-        {
-            System.out.println(p.Decks.get(1).get(i).toString()+" "+i);
-        }
-
-        System.out.println(p.actuel.toString());
-
-        for(int i = 0; i < p.Mains.get(0).size();i++)
-        {
-            System.out.println(p.Mains.get(0).get(i).toString()+" "+i);
-        }
-
-        for(int i = 0; i < p.Mains.get(1).size();i++)
-        {
-            System.out.println(p.Mains.get(1).get(i).toString()+" "+i);
-        }
+    //fonction (trouvée sur un forum) pour mettre les dimensions d'un jFrame au maximum
+    static private void makeFrameFullSize(JFrame aFrame) {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        aFrame.setSize(screenSize.width, screenSize.height);
     }
 }
+
