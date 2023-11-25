@@ -1,6 +1,6 @@
 public class Main {
     public static void main(String[] args) {
-        Partie p = new Partie(2);
+        Partie p = new Partie(2, 1);
         for(int i = 0; i < p.Decks.get(0).size();i++)
         {
             System.out.println(p.Decks.get(0).get(i).toString()+" "+i);
