@@ -41,7 +41,7 @@ public class Partie {
         jeu.remove(0);
         for(int i = 0; i < 3*nbj; i++)
         {
-            piocher();
+            piocher(tour);
         }
     }
 
@@ -62,14 +62,16 @@ public class Partie {
         {
             actuel = Mains.get(tour).get(i);
             Mains.get(tour).remove(i);
-            piocher();
+
+            if (Mains.get(tour).size()<3)
+                piocher(tour);
         }
     }
 
     //permet au joueur actuel de piocher SEULEMENT SI IL LE PEUT
-    public void piocher()
+    public void piocher(int i)
     {
-        if(Decks.get(tour).get(0) != null)
+        if(!Decks.get(tour).isEmpty() && Mains.get(i).size()<5)
         {
             Mains.get(tour).add(Decks.get(tour).get(0));
             Decks.get(tour).remove(0);
@@ -133,7 +135,8 @@ public class Partie {
         }
         else
         {
-            piocher();
+            if (!Decks.get(tour).isEmpty())
+                piocher(tour);
         }
     }
 }
