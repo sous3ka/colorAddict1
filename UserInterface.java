@@ -1,14 +1,11 @@
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 public class UserInterface {
 
-
     static void creerPage(JFrame page) {
-        //JFrame pagePrincipale = new JFrame();//Créé la page
         page.setVisible(true);//Assure la visibilité de la page
         page.setLayout(null);//Permet de gérer manuellement tout les composants de la page
         page.setSize(1000, 720);//Taille de la page
@@ -18,6 +15,7 @@ public class UserInterface {
     }
 
     static void pageAccueil(JFrame page){
+
         JButton boutonJouer = new JButton("Jouer");
         boutonJouer.setBounds(454,310,120,80);
         JLabel textJouer = new JLabel("Lancer le jeu");
@@ -29,7 +27,11 @@ public class UserInterface {
         boutonJouer.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Partie enCours = new Partie(2,1);
+                Partie enCours;
+                do {//ce "do" permet de vérifier que la partie créee ne commence pas avec un Joker
+                    enCours = new Partie(2,1);
+                }while (enCours.actuel.couleur==null);
+
                 page.getContentPane().removeAll();
                 page.revalidate();
                 page.repaint();
@@ -44,6 +46,7 @@ public class UserInterface {
 
     static void jeu1(JFrame page, String nomJoueurString, Partie enCours){
 
+        System.out.println(enCours.actuel);
 
         JLabel nomAdversaire = new JLabel("Adversaire");
         nomAdversaire.setHorizontalAlignment(SwingConstants.CENTER);
@@ -59,121 +62,89 @@ public class UserInterface {
         JLabel carteActuelle = new JLabel();
 
         carteActuelle.setBounds(460,280,80,125);
-        carteActuelleImage.setImage(carteActuelleImage.getImage().getScaledInstance((carteActuelle.getWidth()),carteActuelle.getHeight(),Image.SCALE_SMOOTH));
+        carteActuelleImage.setImage(carteActuelleImage.getImage().getScaledInstance((carteActuelle.getWidth()),carteActuelle.getHeight(), Image.SCALE_SMOOTH));
         carteActuelle.setIcon(carteActuelleImage);
 
-        //carteActuelle.setText(enCours.actuel.toString());
 
-        JLabel carteAdversaire1 = new JLabel();
-        JLabel carteAdversaire2 = new JLabel();
-        JLabel carteAdversaire3 = new JLabel();
-        carteAdversaire1.setBounds(350,50,80,125);
-        carteAdversaire2.setBounds(450,50,80,125);
-        carteAdversaire3.setBounds(550,50,80,125);
-        carteAdversaire1.setOpaque(true);
-        carteAdversaire2.setOpaque(true);
-        carteAdversaire3.setOpaque(true);
-        carteAdversaire1.setBackground(Color.GREEN);
-        carteAdversaire2.setBackground(Color.BLUE);
-        carteAdversaire3.setBackground(Color.PINK);
-        carteAdversaire1.setText(enCours.Mains.get(1).get(0).toString());
-        carteAdversaire2.setText(enCours.Mains.get(1).get(1).toString());
-        carteAdversaire3.setText(enCours.Mains.get(1).get(2).toString());
-
-        JButton carteJoueur1 = new JButton();
-        JButton carteJoueur2 = new JButton();
-        JButton carteJoueur3 = new JButton();
-
-        carteJoueur1.setBounds(350,520,80,125);
-        carteJoueur2.setBounds(450,520,80,125);
-        carteJoueur3.setBounds(550,520,80,125);
-
-        ImageIcon carteJoueur1Image = ImageUtilitaire.createImageIcon(ImageUtilitaire.imageCartes(enCours.Mains.get(0).get(0)),"carte 1 joueur1");
-        carteJoueur1Image.setImage(carteJoueur1Image.getImage().getScaledInstance((carteJoueur1.getWidth()),carteJoueur1.getHeight(),Image.SCALE_SMOOTH));
-        ImageIcon carteJoueur2Image = ImageUtilitaire.createImageIcon(ImageUtilitaire.imageCartes(enCours.Mains.get(0).get(1)),"carte 2 joueur1");
-        carteJoueur2Image.setImage(carteJoueur2Image.getImage().getScaledInstance((carteJoueur2.getWidth()),carteJoueur2.getHeight(),Image.SCALE_SMOOTH));
-        ImageIcon carteJoueur3Image = ImageUtilitaire.createImageIcon(ImageUtilitaire.imageCartes(enCours.Mains.get(0).get(2)),"carte 3 joueur1");
-        carteJoueur3Image.setImage(carteJoueur3Image.getImage().getScaledInstance((carteJoueur3.getWidth()),carteJoueur3.getHeight(),Image.SCALE_SMOOTH));
-
-        carteJoueur1.setIcon(carteJoueur1Image);
-        carteJoueur2.setIcon(carteJoueur2Image);
-        carteJoueur3.setIcon(carteJoueur3Image);
-        //carteJoueur1.setText(enCours.Mains.get(0).get(0).toString());
-        //carteJoueur1.setBackground(Color.ORANGE);
-
-        //carteJoueur2.setText(enCours.Mains.get(0).get(1).toString());
-        //carteJoueur2.setBackground(Color.RED);
-
-        //carteJoueur3.setText(enCours.Mains.get(0).get(2).toString());
-        //carteJoueur3.setBackground(Color.PINK);
-
-        JButton piocheJoueur = new JButton();
-        piocheJoueur.setBounds(650,520,80,60);
-        piocheJoueur.setText(enCours.Decks.get(0).get(1).toString());
-
-        carteJoueur1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                enCours.jouer(0);
-                page.getContentPane().removeAll();
-                page.revalidate();
-                page.repaint();
-                jeu1(page, nomJoueurString,enCours);
-            }
-        });
-        carteJoueur2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                enCours.jouer(1);
-                page.getContentPane().removeAll();
-                page.revalidate();
-                page.repaint();
-                jeu1(page, nomJoueurString,enCours);
-            }
-        });
-        carteJoueur3.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {//permet de jouer la carte 3
-                enCours.jouer(2);
-                page.getContentPane().removeAll();
-                page.revalidate();
-                page.repaint();
-                jeu1(page, nomJoueurString,enCours);
-            }
-        });
-
-        piocheJoueur.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                enCours.piocher();
-                page.getContentPane().removeAll();
-                page.revalidate();
-                page.repaint();
-                jeu1(page, nomJoueurString,enCours);
-            }
-        });
-
-        System.out.println("tour du joueur: "+enCours.tour);
-
-        if (enCours.tour == 1){
-            System.out.println("Tour ordinateur");
-            enCours.tour_ordinateur();
-            page.getContentPane().removeAll();
-            page.revalidate();
-            page.repaint();
-            jeu1(page,nomJoueurString,enCours);
+        for ( int i = 0 ; i < enCours.Mains.get(1).size() ; i++ ){
+            JLabel carteAdversaire1 = new JLabel();
+            carteAdversaire1.setBounds(350+(i*100),50,80,125);
+            carteAdversaire1.setOpaque(true);
+            carteAdversaire1.setBackground(Color.ORANGE);
+            carteAdversaire1.setText(enCours.Mains.get(1).get(i).toString());
+            page.add(carteAdversaire1);
         }
 
+        JPanel cartesJoueurPanel = new JPanel();
+        cartesJoueurPanel.setBounds(250,520,500,125);
+        cartesJoueurPanel.setLayout(null);
 
+        for (int j=0;j<enCours.Mains.get(0).size();j++){
+            final int Finalj = j;
+            System.out.println("carte numéro"+ (j+1));
+            JButton carteJoueur = new JButton();
+            carteJoueur.setBounds((j*100),0,80,125);
+            carteJoueur.setPreferredSize(new Dimension(80,125));
+            ImageIcon carteJoueurImage = ImageUtilitaire.createImageIcon(ImageUtilitaire.imageCartes(enCours.Mains.get(0).get(j)),"carte" + j +  "joueur1");
+            carteJoueurImage.setImage(carteJoueurImage.getImage().getScaledInstance((carteJoueur.getWidth()),carteJoueur.getHeight(),Image.SCALE_SMOOTH));
+            carteJoueur.setIcon(carteJoueurImage);
+            if (enCours.tour==0){
+                carteJoueur.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        System.out.println("carte cliquée : "+enCours.Mains.get(0).get(Finalj).toString());
+                        enCours.jouer(Finalj);
+                        if (enCours.actuel.couleur==null){
+                            jokerPlayed(page,enCours);
+                        }
+                        page.getContentPane().removeAll();
+                        page.revalidate();
+                        page.repaint();
+                        jeu1(page, nomJoueurString,enCours);
+                    }
+                });
+            }
+            cartesJoueurPanel.add(carteJoueur);
+        }
+        page.add(cartesJoueurPanel);
+        enCours.Decks.get(0).clear();
+        JButton piocheJoueur = new JButton("Pioche");
+        if (enCours.Decks.get(0).isEmpty())
+            piocheJoueur.setText("Passer");
 
-/*        if (enCours.compare(enCours.actuel,enCours.Mains.get(enCours.tour).get(0))){
-            carteJoueur1.addActionListener(new ActionListener() {
+        piocheJoueur.setBounds(650,420,80,60);
+        page.add(piocheJoueur);
+        if (enCours.tour==0){
+            piocheJoueur.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
+                    enCours.piocher(enCours.tour);
+                    page.getContentPane().removeAll();
+                    page.revalidate();
+                    page.repaint();
+                    jeu1(page, nomJoueurString,enCours);
                 }
             });
-        }*/
+        }
+
+        System.out.println("tour du joueur: "+ enCours.tour);
+
+        if (enCours.tour == 1){
+            System.out.println("Tour ordinateur");
+            Timer timer = new Timer(2000, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    enCours.tour_ordinateur();
+                    page.getContentPane().removeAll();
+                    page.revalidate();
+                    page.repaint();
+                    jeu1(page,nomJoueurString,enCours);
+                }
+            });
+            timer.setRepeats(false);
+            timer.start();
+        }
 
         page.add(nomJoueur);
 
@@ -181,20 +152,43 @@ public class UserInterface {
 
         page.add(carteActuelle);
 
-        page.add(carteAdversaire1);
-        page.add(carteAdversaire2);
-        page.add(carteAdversaire3);
-
-        page.add(carteJoueur1);
-        page.add(carteJoueur2);
-        page.add(carteJoueur3);
-
-        page.add(piocheJoueur);
     }
 
+    static void jokerPlayed(JFrame page, Partie partie){
+        JDialog pageChoixCouleur = new JDialog(page,"ChoixJoker",true);
+        pageChoixCouleur.setLocationRelativeTo(page);
+
+        pageChoixCouleur.setSize(400,300);
+        pageChoixCouleur.setResizable(false);
+        pageChoixCouleur.setDefaultCloseOperation(0);
+
+        JLabel question = new JLabel("quelles couleurs choisis tu?");
+        question.setBounds(30,0,200,40);
+        pageChoixCouleur.add(question);
+
+        JComboBox choixEcrit = new JComboBox<>(Couleur.values());
+        choixEcrit.setBounds(30,50,100,30);
+        pageChoixCouleur.add(choixEcrit);
+
+        JComboBox choixCouleur = new JComboBox<>(Couleur.values());
+        choixCouleur.setBounds(150,50,100,30);
+        pageChoixCouleur.add(choixCouleur);
+
+        JButton valideChoix = new JButton("VALIDER");
+        valideChoix.setBounds(30,150,100,30);
+        pageChoixCouleur.add(valideChoix);
+
+        valideChoix.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Carte remplacente = new Carte((Couleur) choixCouleur.getSelectedItem(),(Couleur) choixEcrit.getSelectedItem());
+                partie.actuel = remplacente;
+                pageChoixCouleur.dispose();
+            }
+        });
 
 
-
-
-
+        pageChoixCouleur.setLayout(null);
+        pageChoixCouleur.setVisible(true);
+    }
 }
