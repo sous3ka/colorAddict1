@@ -1,5 +1,7 @@
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.Random;
+
 public class Partie {
     public LinkedList<LinkedList<Carte>> Decks; // decks (pioche) des joueurs
     public LinkedList<LinkedList<Carte>> Mains; // mains des joueurs
@@ -56,6 +58,7 @@ public class Partie {
     }
 
     //permet au joueur actuel de jouer la carte d'indice i dans sa main SEULEMENT SI IL LE PEUT
+    //si ensuite il a moins de 3 cartes en main, il pioche.
     public void jouer(int i)
     {
         if(compare(actuel,Mains.get(tour).get(i)))
@@ -65,10 +68,12 @@ public class Partie {
 
             if (Mains.get(tour).size()<3)
                 piocher(tour);
+            else change();
         }
     }
 
-    //permet au joueur actuel de piocher SEULEMENT SI IL LE PEUT
+    //permet au joueur actuel de piocher si il a des cartes dans sa pioche et - de 5 cartes en mains
+    //puis passe son tour
     public void piocher(int i)
     {
         if(!Decks.get(tour).isEmpty() && Mains.get(i).size()<5)
@@ -90,6 +95,7 @@ public class Partie {
                 ||c2 instanceof Joker);
     }
 
+    //fonction qui créé le deck avec 2 exemplaires de chaques cartes + 12 joker, soit 49*2 + 12 = 110 cartes
     public void creerDeck() {
         jeu = new LinkedList<Carte>();
         for (Couleur c1 : Couleur.values()) {
@@ -127,16 +133,23 @@ public class Partie {
     }
 
     //fonction permettant à l'ordinateur de jouer si il le peut, sinon il pioche
-    public void tour_ordinateur()
+    public void tour_ordinateur(int tourOrdinateur)
     {
         if(peut_jouer()[0] == 1)
         {
             jouer(peut_jouer()[1]);
+            if (actuel.couleur==null){  //si l'ordinateur joue un joker, il le transforme une une carte qui
+                                        // a une couleur qu'il possede et un écrit qu'il possède
+                int i = (int)(Math.random()*Mains.get(tourOrdinateur).size());
+                //tour = (int)(Math.random() * nbj);
+                actuel.couleur = Mains.get(tourOrdinateur).get(i).couleur;
+                i = (int)(Math.random()*Mains.get(tourOrdinateur).size());
+                actuel.ecrit = Mains.get(tourOrdinateur).get(i).ecrit;
+            }
         }
         else
         {
-            if (!Decks.get(tour).isEmpty())
-                piocher(tour);
+            piocher(tour);
         }
     }
 }
