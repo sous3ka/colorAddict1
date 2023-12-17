@@ -56,14 +56,13 @@ public class UserInterface {
         nomJoueur.setHorizontalAlignment(SwingConstants.CENTER);
         nomJoueur.setBounds(450,650,100,30);
 
-
-
         ImageIcon carteActuelleImage = ImageUtilitaire.createImageIcon(ImageUtilitaire.imageCartes(enCours.actuel),"carteActuelle");
-        JLabel carteActuelle = new JLabel();
 
+        JLabel carteActuelle = new JLabel();
         carteActuelle.setBounds(460,280,80,125);
         carteActuelleImage.setImage(carteActuelleImage.getImage().getScaledInstance((carteActuelle.getWidth()),carteActuelle.getHeight(), Image.SCALE_SMOOTH));
         carteActuelle.setIcon(carteActuelleImage);
+        page.add(carteActuelle);
 
 
         for ( int i = 0 ; i < enCours.Mains.get(1).size() ; i++ ){
@@ -107,7 +106,7 @@ public class UserInterface {
             cartesJoueurPanel.add(carteJoueur);
         }
         page.add(cartesJoueurPanel);
-        enCours.Decks.get(0).clear();
+
         JButton piocheJoueur = new JButton("Pioche");
         if (enCours.Decks.get(0).isEmpty())
             piocheJoueur.setText("Passer");
@@ -135,7 +134,7 @@ public class UserInterface {
             Timer timer = new Timer(2000, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    enCours.tour_ordinateur();
+                    enCours.tour_ordinateur(1);
                     page.getContentPane().removeAll();
                     page.revalidate();
                     page.repaint();
@@ -147,10 +146,9 @@ public class UserInterface {
         }
 
         page.add(nomJoueur);
-
         page.add(nomAdversaire);
 
-        page.add(carteActuelle);
+
 
     }
 
@@ -166,11 +164,11 @@ public class UserInterface {
         question.setBounds(30,0,200,40);
         pageChoixCouleur.add(question);
 
-        JComboBox choixEcrit = new JComboBox<>(Couleur.values());
+        JComboBox<Couleur> choixEcrit = new JComboBox<>(Couleur.values());
         choixEcrit.setBounds(30,50,100,30);
         pageChoixCouleur.add(choixEcrit);
 
-        JComboBox choixCouleur = new JComboBox<>(Couleur.values());
+        JComboBox<Couleur> choixCouleur = new JComboBox<>(Couleur.values());
         choixCouleur.setBounds(150,50,100,30);
         pageChoixCouleur.add(choixCouleur);
 
@@ -181,12 +179,10 @@ public class UserInterface {
         valideChoix.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Carte remplacente = new Carte((Couleur) choixCouleur.getSelectedItem(),(Couleur) choixEcrit.getSelectedItem());
-                partie.actuel = remplacente;
+                partie.actuel = new Carte((Couleur) choixCouleur.getSelectedItem(),(Couleur) choixEcrit.getSelectedItem());
                 pageChoixCouleur.dispose();
             }
         });
-
 
         pageChoixCouleur.setLayout(null);
         pageChoixCouleur.setVisible(true);
