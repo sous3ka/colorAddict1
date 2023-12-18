@@ -12,7 +12,6 @@ public class Partie {
     public Carte actuel; // Carte sur laquelle jouer
     public int tour; //indice du joueur qui joue
     public int nb_joueurs;
-
     public int nb_passe; //nombre de fois que les joueurs ont passé (sans piocher) d'affilée
 
     //constructeur de la partie, reçoit en paramètre le nombre de joueurs de la partie
@@ -100,7 +99,7 @@ public class Partie {
                 ||c1.ecrit == c2.couleur
                 ||c1.ecrit == c2.ecrit
                 ||c2 instanceof Joker
-                ||nb_passe == nb_joueurs);
+                ||nb_passe >= nb_joueurs);
     }
 
     //fonction qui créé le deck avec 2 exemplaires de chaques cartes + 12 joker, soit 49*2 + 12 = 110 cartes
