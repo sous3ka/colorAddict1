@@ -1,8 +1,10 @@
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Random;
 
 public class Partie {
+    public ArrayList<String> nomJoueurs;// stock les noms des joueurs
     public LinkedList<LinkedList<Carte>> Decks; // decks (pioche) des joueurs
     public LinkedList<LinkedList<Carte>> Mains; // mains des joueurs
     public boolean[] Humains; // nombre d'humains dans la partie
@@ -15,6 +17,7 @@ public class Partie {
     //prepare la partie (création + distribution des cartes + choix aléatoire du premier joueur)
     public Partie(int nbj, int nbh)
     {
+        nomJoueurs = new ArrayList<>();
         nb_joueurs = nbj;
         Decks = new LinkedList<LinkedList<Carte>>();
         Humains = new boolean[nbj];
