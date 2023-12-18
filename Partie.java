@@ -21,10 +21,6 @@ public class Partie {
         nb_joueurs = nbj;
         Decks = new LinkedList<LinkedList<Carte>>();
         Humains = new boolean[nbj];
-        for(int i = 0; i < nbj; i++)
-        {
-            Humains[i] = i<nbh;
-        }
         Mains = new LinkedList<LinkedList<Carte>>();
         for(int i = 0; i < nbj; i++)
         {
@@ -142,7 +138,7 @@ public class Partie {
         {
             jouer(peut_jouer()[1]);
             if (actuel.couleur==null){  //si l'ordinateur joue un joker, il le transforme une une carte qui
-                                        // a une couleur qu'il possede et un écrit qu'il possède
+                // a une couleur qu'il possede et un écrit qu'il possède
                 int i = (int)(Math.random()*Mains.get(tourOrdinateur).size());
                 //tour = (int)(Math.random() * nbj);
                 actuel.couleur = Mains.get(tourOrdinateur).get(i).couleur;
