@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.AffineTransform;
 
 public class UserInterface {
 
@@ -16,14 +17,44 @@ public class UserInterface {
 
     static void pageAccueil(JFrame page){
 
+        final JTextArea[][] nomsJoueurs = new JTextArea[1][];
+        final JCheckBox[][] estUnJoueur = new JCheckBox[1][];
+
         JButton boutonJouer = new JButton("Jouer");
-        boutonJouer.setBounds(454,310,120,80);
-        JLabel textJouer = new JLabel("Lancer le jeu");
-        JTextArea nomJoueur = new JTextArea("joueur");
+        boutonJouer.setBounds(440,310,120,80);
+        boutonJouer.setEnabled(false);
 
-        nomJoueur.setBounds(450,150,100,30);
-        textJouer.setBounds(470,225,75,50);
+        JComboBox<Integer> nombreJoueursComboBox = new JComboBox<>(new Integer[]{2, 3, 4});
+        nombreJoueursComboBox.setBounds(450, 50, 100, 30);
+        page.add(nombreJoueursComboBox);
 
+        JPanel nombreJoueursPanel = new JPanel();
+        nombreJoueursPanel.setBounds(400,100,200,200);
+        nombreJoueursPanel.setLayout(null);
+
+        nombreJoueursComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {//créer autant de JTextArea que de joueurs, entre 2 et 4
+                int nombreDeJoueurs = (int) nombreJoueursComboBox.getSelectedItem();
+                nombreJoueursPanel.removeAll();
+                nomsJoueurs[0] = new JTextArea[nombreDeJoueurs];
+                estUnJoueur[0] = new JCheckBox[nombreDeJoueurs];
+                for ( int i = 0 ; i < nombreDeJoueurs ; i++ ){
+                    nomsJoueurs[0][i] = new JTextArea("joueur " + (i+1));
+                    nomsJoueurs[0][i].setBounds(0,(i*40),100,30);
+                    nombreJoueursPanel.add(nomsJoueurs[0][i]);
+
+                    estUnJoueur[0][i] = new JCheckBox();
+                    estUnJoueur[0][i].setBounds(110,(i*40),20,20);
+                    nombreJoueursPanel.add(estUnJoueur[0][i]);
+                    //System.out.println(nomsJoueurs[0][i].getText());
+                }
+                nombreJoueursPanel.revalidate();
+                nombreJoueursPanel.repaint();
+                boutonJouer.setEnabled(true);//rend le bouton pour lancer la partie cliquable
+            }
+        });
+        page.add(nombreJoueursPanel);
         boutonJouer.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -31,28 +62,33 @@ public class UserInterface {
                 do {//ce "do" permet de vérifier que la partie créee ne commence pas avec un Joker
                     enCours = new Partie(2,1);
                 }while (enCours.actuel.couleur==null);
-
+                for (int i =0;i<nomsJoueurs[0].length;i++){//mets les valeurs des JTextArea dans
+                    enCours.nomJoueurs.add(nomsJoueurs[0][i].getText());//l'arrayList nomJoueurs
+                }
                 page.getContentPane().removeAll();
                 page.revalidate();
                 page.repaint();
-                jeu1(page, nomJoueur.getText(),enCours);
+                jeu1(page,enCours);
             }
         });
+
+
         page.add(boutonJouer);
-        page.add(textJouer);
-        page.add(nomJoueur);
         page.repaint();
     }
 
-    static void jeu1(JFrame page, String nomJoueurString, Partie enCours){
+    static void jeu1(JFrame page,Partie enCours){
 
         System.out.println(enCours.actuel);
+        for (int i=0;i<enCours.nomJoueurs.size();i++){
+            System.out.println(enCours.nomJoueurs.get(i).toString());
+        }
 
-        JLabel nomAdversaire = new JLabel("Adversaire");
+        JLabel nomAdversaire = new JLabel(enCours.nomJoueurs.get(1));
         nomAdversaire.setHorizontalAlignment(SwingConstants.CENTER);
         nomAdversaire.setBounds(450,10,100,30);
 
-        JLabel nomJoueur = new JLabel(nomJoueurString);
+        JLabel nomJoueur = new JLabel(enCours.nomJoueurs.get(0));
         nomJoueur.setHorizontalAlignment(SwingConstants.CENTER);
         nomJoueur.setBounds(450,650,100,30);
 
@@ -99,7 +135,7 @@ public class UserInterface {
                         page.getContentPane().removeAll();
                         page.revalidate();
                         page.repaint();
-                        jeu1(page, nomJoueurString,enCours);
+                        jeu1(page, enCours);
                     }
                 });
             }
@@ -110,7 +146,6 @@ public class UserInterface {
         JButton piocheJoueur = new JButton("Pioche");
         if (enCours.Decks.get(0).isEmpty())
             piocheJoueur.setText("Passer");
-
         piocheJoueur.setBounds(650,420,80,60);
         page.add(piocheJoueur);
         if (enCours.tour==0){
@@ -122,12 +157,12 @@ public class UserInterface {
                     page.getContentPane().removeAll();
                     page.revalidate();
                     page.repaint();
-                    jeu1(page, nomJoueurString,enCours);
+                    jeu1(page, enCours);
                 }
             });
-        }
+        }//pioche tour joueur (fini)
 
-        System.out.println("tour du joueur: "+ enCours.tour);
+        System.out.println("tour du joueur: "+ enCours.tour +" "+ enCours.nomJoueurs.get(enCours.tour));
 
         if (enCours.tour == 1){
             System.out.println("Tour ordinateur");
@@ -138,13 +173,13 @@ public class UserInterface {
                     page.getContentPane().removeAll();
                     page.revalidate();
                     page.repaint();
-                    jeu1(page,nomJoueurString,enCours);
+                    jeu1(page,enCours);
                 }
             });
             timer.setRepeats(false);
             timer.start();
-        }
-
+        }//tour de l'ordinateur (fini)
+        
         page.add(nomJoueur);
         page.add(nomAdversaire);
 
@@ -187,4 +222,5 @@ public class UserInterface {
         pageChoixCouleur.setLayout(null);
         pageChoixCouleur.setVisible(true);
     }
+
 }
