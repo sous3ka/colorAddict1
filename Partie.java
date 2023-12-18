@@ -13,6 +13,8 @@ public class Partie {
     public int tour; //indice du joueur qui joue
     public int nb_joueurs;
 
+    public int nb_passe; //nombre de fois que les joueurs ont passé (sans piocher) d'affilée
+
     //constructeur de la partie, reçoit en paramètre le nombre de joueurs de la partie
     //prepare la partie (création + distribution des cartes + choix aléatoire du premier joueur)
     public Partie(int nbj)
@@ -64,10 +66,10 @@ public class Partie {
         {
             actuel = Mains.get(tour).get(i);
             Mains.get(tour).remove(i);
-
             if (Mains.get(tour).size()<3)
                 piocher(tour);
             else change();
+            nb_passe = 0;
         }
     }
 
@@ -79,19 +81,26 @@ public class Partie {
         {
             Mains.get(tour).add(Decks.get(tour).get(0));
             Decks.get(tour).remove(0);
+            nb_passe = 0;
+        }
+        else{
+            nb_passe++;
         }
         change();
     }
 
     //fonction pour vérifier si l'on peut jouer la carte c2 sur la carte c1
     //c1 ne peut donc pas être un joker car elle est déja sur la table
+    //autre condition : nb_passe = nb_joueurs, alors on peut jouer nimporte quelle carte pour
+    //débloquer le jeu
     public boolean compare(Carte c1, Carte c2)
     {
         return(c1.couleur == c2.couleur
                 || c1.couleur == c2.ecrit
                 ||c1.ecrit == c2.couleur
                 ||c1.ecrit == c2.ecrit
-                ||c2 instanceof Joker);
+                ||c2 instanceof Joker
+                ||nb_passe == nb_joueurs);
     }
 
     //fonction qui créé le deck avec 2 exemplaires de chaques cartes + 12 joker, soit 49*2 + 12 = 110 cartes
