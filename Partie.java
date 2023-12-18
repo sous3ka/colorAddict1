@@ -15,7 +15,7 @@ public class Partie {
 
     //constructeur de la partie, reçoit en paramètre le nombre de joueurs de la partie
     //prepare la partie (création + distribution des cartes + choix aléatoire du premier joueur)
-    public Partie(int nbj, int nbh)
+    public Partie(int nbj)
     {
         nomJoueurs = new ArrayList<>();
         nb_joueurs = nbj;
