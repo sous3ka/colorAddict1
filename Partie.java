@@ -13,7 +13,7 @@ public class Partie {
     public int tour; //indice du joueur qui joue
     public int nb_joueurs;
 
-    public int nb_passe; //nombre de fois que les joueurs ont passé (sans piocher) d'affilée
+    public int nb_passe; //nombre de fois que les joueurs ont passé (sans piocher) d'affilée, cela nous est utile pour débloquer la partie lorsque personne n'a joué
 
     //constructeur de la partie, reçoit en paramètre le nombre de joueurs de la partie
     //prepare la partie (création + distribution des cartes + choix aléatoire du premier joueur)
@@ -48,7 +48,7 @@ public class Partie {
         }
     }
 
-    //fonction qui change la valeur du tour
+    //fonction qui change la valeur du tour (le joueur qui doit jouer)
     public void change()
     {
         tour++;
@@ -66,15 +66,18 @@ public class Partie {
         {
             actuel = Mains.get(tour).get(i);
             Mains.get(tour).remove(i);
+            //on ne pioche que si l'on à moins de 3 carte
             if (Mains.get(tour).size()<3)
                 piocher(tour);
             else change();
+            //étant donné que quelqu'un à joué, on réinitialise le compteur de "passe"
             nb_passe = 0;
         }
     }
 
     //permet au joueur actuel de piocher si il a des cartes dans sa pioche et - de 5 cartes en mains
-    //puis passe son tour
+    //puis passe son tour, si le joueur ne peut pas piocher (soit plus de carte dans sa pioche, soit qu'il a deja 5 cartes dans sa main)
+    //alors il passe son tour
     public void piocher(int i)
     {
         if(!Decks.get(tour).isEmpty() && Mains.get(i).size()<5)
@@ -104,6 +107,7 @@ public class Partie {
     }
 
     //fonction qui créé le deck avec 2 exemplaires de chaques cartes + 12 joker, soit 49*2 + 12 = 110 cartes
+    //le deck crée n'est pas encore mélangé
     public void creerDeck() {
         jeu = new LinkedList<Carte>();
         for (Couleur c1 : Couleur.values()) {
