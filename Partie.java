@@ -150,9 +150,15 @@ public class Partie {
         if(peut_jouer()[0] == 1)
         {
             jouer(peut_jouer()[1]);
-            if (actuel.couleur==null){  //si l'ordinateur joue un joker, il le transforme une une carte qui
+            if (actuel.couleur==null){  //si l'ordinateur joue un joker, il le transforme en une carte qui
                 // a une couleur qu'il possede et un écrit qu'il possède
-                int i = (int)(Math.random()*Mains.get(tourOrdinateur).size());
+                //ce bout de code à été rajouté pour éviter que si l'ordi a 2 joker, qu'il choisisse la couleur null
+                //si il choisis la couleur null, alors la couleur change aléatoirement
+                int i = (int) (Math.random() * Mains.get(tourOrdinateur).size());
+                while(Mains.get(tourOrdinateur).get(i).couleur == null)
+                {
+                    i = (int)(Math.random()*7);
+                }
                 actuel.couleur = Mains.get(tourOrdinateur).get(i).couleur;
                 i = (int)(Math.random()*Mains.get(tourOrdinateur).size());
                 actuel.ecrit = Mains.get(tourOrdinateur).get(i).ecrit;
