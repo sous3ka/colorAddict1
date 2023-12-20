@@ -12,6 +12,7 @@ public class Partie {
     public Carte actuel; // Carte sur laquelle jouer
     public int tour; //indice du joueur qui joue
     public int nb_joueurs;
+
     public int nb_passe; //nombre de fois que les joueurs ont passé (sans piocher) d'affilée
 
     //constructeur de la partie, reçoit en paramètre le nombre de joueurs de la partie
@@ -148,7 +149,6 @@ public class Partie {
             if (actuel.couleur==null){  //si l'ordinateur joue un joker, il le transforme une une carte qui
                 // a une couleur qu'il possede et un écrit qu'il possède
                 int i = (int)(Math.random()*Mains.get(tourOrdinateur).size());
-                //tour = (int)(Math.random() * nbj);
                 actuel.couleur = Mains.get(tourOrdinateur).get(i).couleur;
                 i = (int)(Math.random()*Mains.get(tourOrdinateur).size());
                 actuel.ecrit = Mains.get(tourOrdinateur).get(i).ecrit;
